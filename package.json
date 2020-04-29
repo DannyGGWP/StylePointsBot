@@ -1,0 +1,22 @@
+{
+  "name": "stylepointsbot",
+  "version": "1.0.0",
+  "description": "A Simple bot to track style points awarded to players in the chat. ",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DannyGGWP/StylePointsBot.git"
+  },
+  "author": "Daniel Guerrera",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/DannyGGWP/StylePointsBot/issues"
+  },
+  "homepage": "https://github.com/DannyGGWP/StylePointsBot#readme",
+  "dependencies": {
+    "tmi.js": "^1.5.0"
+  }
+}
