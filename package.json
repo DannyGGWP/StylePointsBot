@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/DannyGGWP/StylePointsBot#readme",
   "dependencies": {
+    "mysql": "^2.18.1",
     "tmi.js": "^1.5.0"
   }
 }
