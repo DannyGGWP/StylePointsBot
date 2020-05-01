@@ -1,23 +1,8 @@
 var tmi = require('tmi.js'); 
 const mysql = require('mysql');
 var pointsDB = require("./connections");
-
-var options = {
-    options: {
-        debug: true
-    },
-    connection:
-    {
-        secure: true,
-        reconnect: true
-    },
-    identity:
-    {
-        username: "Bot-Name",
-        password: "OAUTH"
-    },
-    channels: ['channelName']
-};
+// Link to options File where a user would define their specific chat options 
+var options = require("./options"); 
 
 const client = new tmi.Client(options);
 
@@ -59,7 +44,7 @@ client.on('message',(channel, tags, message, self) => {
         try {
             pointsDB.query(`SELECT \`points_users\`.\`points\` FROM \`stylepointsbot\`.\`points_users\` where \`points_users\`.\`user\` = '${tags.username}' ;`,(err,rows,fields)=>{
                 if (err) throw err; 
-                client.say(channel, `@${tags.username} has ${rows[0][0]['points']} style points!`)
+                client.say(channel, `@${tags.username} has ${rows[0]['points']} style points!`)
             })
         } catch (ex)
         {
