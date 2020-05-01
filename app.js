@@ -26,7 +26,7 @@ client.connect();
 client.on('message',(channel, tags, message, self) => {
     if (self) return; 
     if (message.toLowerCase() === '!register') {
-        var query = 'INSERT IGNORE INTO \`stylepointsbot\`.\`points_users\`(`id`,`user`,`points`) VALUES (0, \''+tags.username+'\', 0);';
+        var query = `INSERT IGNORE INTO \`stylepointsbot\`.\`points_users\`(\`id\`,\`user\`,\`points\`) VALUES (0, '${tags.username}', 0);`;
         pointsDB.query(query,(err,rows,fields)=>{
             if (err) throw err; 
             console.log("Registering new user "+tags.username+"!")
@@ -44,15 +44,26 @@ client.on('message',(channel, tags, message, self) => {
         if(tags.mod || tags['user-type'] === 'mod' || tags.badges['broadcaster'] === '1') {
             if (input.startsWith("@"))
             {
-                var query = "CALL `stylepointsbot`.`give_points`('"+input.substring(1)+"');"
+                var query = `CALL \`stylepointsbot\`.\`give_points\`('${input.substring(1)}');`
                 console.log(query); 
                 pointsDB.query(query,(err,rows,fields)=>{
                     if (err) throw err; 
                     console.log(rows[0][0]); 
-                    client.say(channel, input+" was stylin! They have Styled on the haters "+rows[0][0]['points']+" times!")
+                    client.say(channel, `${input} was stylin! They have Styled on the haters ${rows[0][0]['points']} times!`)
                 });
             }
         }
     }
-
+    if (message.toLowerCase().startsWith("!style"))
+    {
+        try {
+            pointsDB.query(`SELECT \`points_users\`.\`points\` FROM \`stylepointsbot\`.\`points_users\` where \`points_users\`.\`user\` = '${tags.username}' ;`,(err,rows,fields)=>{
+                if (err) throw err; 
+                client.say(channel, `@${tags.username} has ${rows[0][0]['points']} style points!`)
+            })
+        } catch (ex)
+        {
+            console.log(`Caught EXCEPTION: ${ex}`);
+        }
+    }
 });
