@@ -51,4 +51,21 @@ client.on('message',(channel, tags, message, self) => {
             console.log(`Caught EXCEPTION: ${ex}`);
         }
     }
+    if (message.toLowerCase().startsWith("!rankings"))
+    {
+        try {
+            pointsDB.query(`SELECT \`points_users\`.\`user\`, \`points_users\`.\`points\` FROM \`stylepointsbot\`.\`points_users\` ORDER BY \`points_users\`.\`points\` desc LIMIT 0, 5` , (err, rows, fields) => {
+                if (err) throw err; 
+                console.log(rows); 
+                var rankingMessage = `Top 5 Style Rankings: `
+                for(var i = 0; i<rows.length; i++)
+                {
+                    rankingMessage += `#${i+1} - @${rows[i]['user']} with ${rows[i]['points']}. `;
+                }
+                client.say(channel, rankingMessage); 
+            }); 
+        } catch {
+            console.log(`Caught EXCEPTION: ${ex}`);
+        }
+    }
 });
